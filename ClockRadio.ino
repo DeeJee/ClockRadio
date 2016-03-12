@@ -76,6 +76,11 @@ int BUTTON = 8;
 long rotaryCount = 0;
 long lastRotaryCount = 0;
 long aantalSeconden = 0;
+enum EditMode {
+	Hours,
+	Minutes
+};
+EditMode editMode;
 
 void setup() {
 	// Setup Serial connection
@@ -93,29 +98,19 @@ void setup() {
 
 int mode = DISPLAYMODE;
 boolean tonen;
-
+int hours, minutes;
 
 boolean pushButtonPreviousState = true;
 void loop() {
-
-	if (rotaryCount != lastRotaryCount) {
-		lastRotaryCount = rotaryCount;
-		Serial.print("main count: ");
-		Serial.println(rotaryCount);
-	}
-
 	switch (mode) {
 	case DISPLAYMODE:
-		if (modeButtonPressed()) {
+		if (modeButtonPressed()                                                                                                                                                                                                                                                                                                                                                                                                                                               ) {
 			toggleMode();
 		}
 
 		showTime();
 		break;
 	case EDITMODE:
-		if (rotaryCount != lastRotaryCount) {
-			lastRotaryCount = rotaryCount;
-		}
 		setTime();
 		break;
 	}
@@ -143,6 +138,9 @@ void toggleMode() {
 		Serial.println("Switching to editmode");
 		Serial.println("Editing hours");
 		mode = EDITMODE;
+		Time time = rtc.getTime();
+		hours = time.hour;
+		minutes = time.min;
 	}
 	else {
 		Serial.println("Switching to display mode");

@@ -7,20 +7,12 @@ void setupLcd() {
 	lcd.home(); // go home
 }
 
-enum EditMode {
-	Hours,
-	Minutes
-};
-
-EditMode editMode;
-
 void  setTime() {
 	switch (editMode) {
 	case Hours:
 		blinkHours();
 		printMinutes();
 		if (modeButtonPressed()) {
-			Serial.println("Editing minutes");
 			editMode = Minutes;
 		}
 		break;
@@ -56,23 +48,18 @@ void blinkMinutes() {
 }
 
 String getHours() {
-	int uren = rotaryCount / 60;
-
-	if (uren < 10) {
-		return "0" + String(uren);
-	}
-	else {
-		return String(uren);
-	}
+	return Format(hours);
 }
 
 String getMinutes() {
-	int minuten = rotaryCount % 60;
+	return Format(minutes);
+}
 
-	if (minuten < 10)
-		return "0" + String(minuten);
+String Format(int number) {
+	if (number < 10)
+		return "0" + String(number);
 	else {
-		return String(minuten);
+		return String(number);
 	}
 }
 

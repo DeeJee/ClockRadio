@@ -14,16 +14,42 @@ void setupRotaryEncoder() {
 void rotaryTurn()
 {
 	// Interrupt Service Routine for a change to Rotary Encoder pin A
-	//  if(mode==EDITMODE){
-	if (digitalRead(ROTARYPB)) {
-		if (rotaryCount > 0) {
-			rotaryCount--;   // Turn it Down!       
+	if (editMode == Hours) {
+		if (digitalRead(ROTARYPB)) {
+			if (hours > 0) {
+				hours--;   // Turn it Down!       
+			}
+			else {
+				hours = 23;
+			}
+		}
+		else {
+			if (hours < 23) {
+				hours++;   // Turn it Up!      
+			}
+			else {
+				hours = 0;
+			}
 		}
 	}
-	else {
-		rotaryCount++;   // Turn it Up!      
+	if (editMode == Minutes) {
+		if (digitalRead(ROTARYPB)) {
+			if (minutes > 0) {
+				minutes--;   // Turn it Down!       
+			}
+			else {
+				minutes = 59;
+			}
+		}
+		else {
+			if (minutes < 59) {
+				minutes++;   // Turn it Up!      
+			}
+			else {
+				minutes = 0;
+			}
+		}
 	}
-	//  } 
 }
 
 
